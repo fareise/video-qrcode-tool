@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>接口调用模拟</title>
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body>
+<div class="container">
+</div>
+<script type="text/javascript">
+window.onload = function(){
+	var sho = new Object();
+	sho.text = "www.baidu.com";
+	$.ajax({
+		url: "http://192.168.252.8:3000/users/shorten",
+		dataType: "json",
+		type: "POST",
+		data: sho,
+		success: function(data){
+			console.log(data)
+		},
+		error: function(data, msg){
+			console.log(msg);
+		}
+	})
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

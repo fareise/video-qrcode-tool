@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 视频演示
+  div.container2
+    video(src= vurl, controls)
+    p 视频信息
+    p 名称: #{name}
+    p 存储位置: public/outset
+    a(href= down, download) 在线下载

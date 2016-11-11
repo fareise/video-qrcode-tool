@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>接口调用模拟</title>
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+</head>
+<body>
+<form method="post" action="https://dwz.cn/create.php" target="urlafter">
+	<input name="url" type="text" placeholder="输入长链接" />
+	<input type="submit" value="提交" />
+</form>
+<iframe src="" name="urlafter"></iframe>
+</br></br></br>
+<input type="text" placeholder="输入长链接" id="url" />
+<button value="提交" id="btn">转换</button>
+<script type="text/javascript">
+	var url = document.getElementById("url").value;
+	var btn = document.getElementById("btn");
+	btn.onclick = function(){
+		$.ajax({
+			url: "https:/dwz.cn/create.php",
+			type: "POST",
+			data: "url="+url,
+			dataType: "jsonp",
+			success: function(data){
+				console.log(data);
+			}
+		})
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

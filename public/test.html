@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>接口调用模拟</title>
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="shortner/jquery.urlshortener.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<h2>工具箱</h2>
+	<div class="nav">
+		<ul>
+			<li><a href="http://localhost:3000/test.html">二维码服务</a></li>
+			<li><a href="http://localhost:3000/testvideo.html">视频转码</a></li>
+		</ul>
+	</div>
+	<form>
+		<p class="finput">URL：<input type="text" id="text" placeholder="输入二维码url" /></p>
+		<p class="finput">二维码宽高：<input type="text" id="width" placeholder="二维码宽高" /></p>
+	</form>
+	<button value="生成" id="button" class="btn">生成二维码</button></br></br></br>
+	<button id="sh" class="btn">使用短链接</button>
+	短链接为：<p id="short" style="color:red;font-size:14px"></p>
+	<p id="long"></p>
+	<div class="comeout">
+		<img id="qrcode" />
+		<p class="download"><a download="qrcode" id="saveImg" href="">保存图片</a></p>
+	</div>
+</div>
+<script type="text/javascript">
+	/*function dataURItoBlob(dataURI) {
+	    var byteString;
+	    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+	        byteString = atob(dataURI.split(',')[1]);
+	    else
+	        byteString = unescape(dataURI.split(',')[1]);
+	    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+	    var ia = new Uint8Array(byteString.length);
+	    for (var i = 0; i < byteString.length; i++) {
+	        ia[i] = byteString.charCodeAt(i);
+	    }
+
+	    return new Blob([ia], {type:mimeString});
+	}*/
+	function downloadFile(aLink, fileName, content){
+	    aLink.download = fileName;
+	    aLink.href = "data:text/plain," + content;
+	}
+	jQuery.urlShortener.settings.apiKey = 'AIzaSyBVlADUC7hdRoBE7q_Ybm9eIMOJ2RPyj9U';
+	var btn = document.getElementById("button");
+	var sh = document.getElementById("sh");
+	//var saveImg = document.getElementById("saveImg");
+	saveImg.onclick = function(){
+		var qrcode = document.getElementById("qrcode").src
+		if(qrcode == ""){
+			alert("请先生成二维码");
+		}else{
+
+			//var blob = dataURItoBlob(qrcode);
+			//var fd = new FormData(document.getElementById("fdform"));
+			//fd.append("image", blob);
+			//fd.append("username", "Margin");
+			/*$.ajax({
+				url: "/users/saveImg",
+				type: "POST",
+				data: fd,
+				processData: false,
+				contentType: false,
+				success: function(data){
+					console.log("成功");
+				},
+				error: function(data, msg){
+					console.log(msg);
+				}
+			});
+			console.log(fd);
+			console.log(blob);*/
+			/*$.ajax({
+				url: "/users/saveImg",
+				type: "POST",
+				data: blob,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+				},
+				error: function(data, msg){
+					console.log(msg);
+				}
+			});*/
+		}
+	}
+	/*sh.onclick = function(){
+		var shortner = document.getElementById("short");
+		var text = document.getElementById("text").value;
+		var longurl = document.getElementById("long");
+		if(text != ""){
+			jQuery.urlShortener({
+		        longUrl: text,
+		        success: function (shortUrl) {
+		            shortner.innerHTML = shortUrl;
+		            document.getElementById("text").value = shortUrl;
+		            longurl.innerHTML = "原网址为：" + text;
+		        },
+		        error: function(err)
+		        {
+		        	shortner.innerHTML = "请输入正确的原URL";
+		        	longurl.innerHTML = "";
+		        }
+		        
+		    });
+		}else{
+			shortner.innerHTML = "请先输入url";
+			longurl.innerHTML = "";
+		}
+	}*/
+
+	sh.onclick = function(){
+		var shortner = document.getElementById("short");   //提示信息
+		var text = document.getElementById("text").value;  //原URL内容
+		var longurl = document.getElementById("long");   //原网址
+		if(text != ""){
+			var timeNow = new Date();
+			var num = timeNow.getYear().toString()+timeNow.getMonth().toString()+timeNow.getDay().toString()+timeNow.getHours().toString()+timeNow.getMinutes().toString()+timeNow.getSeconds().toString();
+			var sho = new Object();
+			console.log(num);
+			sho.text = text;
+			//sho.num = num;
+			$.ajax({
+				url: "/users/shorten",
+				dataType: "json",
+				type: "POST",
+				data: sho,
+				success: function(data){
+					text.innerHTML = data.text;
+					shortner.innerHTML = data.shourl;
+					document.getElementById("text").value = data.shourl;
+				},
+				error: function(data, msg){
+					console.log(msg);
+				}
+			})
+		}else{
+			shortner.innerHTML = "请先输入url";
+			longurl.innerHTML = "";
+		}
+	}
+
+	btn.onclick = function(){
+		var text = document.getElementById("text").value;
+		var width = document.getElementById("width").value;
+		var height = document.getElementById("width").value;
+		//var Dcolor = document.getElementById("Dcolor").value;
+		//var Lcolor = document.getElementById("Lcolor").value;
+		var qrneed = new Object();
+		qrneed.text = text;
+		qrneed.width = width;
+		//qrneed.height = height;
+		//qrneed.Dcolor = Dcolor;
+		//qrneed.Lcolor = Lcolor;
+		JSON.stringify(qrneed);
+		$.ajax({
+			url: "/users/qr",
+			dataType: "json",
+			type: "POST",
+			data: qrneed,
+			success: function(data){
+				var qrcode = document.getElementById("qrcode");
+				qrcode.src = data.url;
+				qrcode.width = data.width;
+				qrcode.height = data.width;
+				//console.log(data.url);
+				$("#saveImg")[0].href=data.url ;
+			},
+			error: function(data, msg){
+				console.log(msg);
+			}
+		})
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

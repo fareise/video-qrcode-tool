@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>接口调用模拟</title>
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body>
+<div class="container">
+	<h2>工具箱</h2>
+	<div class="nav">
+		<ul>
+			<li><a href="http://localhost:3000/test.html">二维码服务</a></li>
+			<li><a href="http://localhost:3000/testvideo.html">视频转码</a></li>
+		</ul>
+	</div>	
+	<!--<form method="post" enctype="multipart/form-data" action="/users/formup">
+		<p class="finput">视频宽度：<input type="text" name="width" placeholder="请输入宽度"><b></b></p>
+		<p class="finput">视频高度：<input type="text" name="height" placeholder="请输入高度"><b></b></p>
+		<p class="finput">视频帧率：<input type="text" name="fps" placeholder="请输入转换成的格式" ><b></b></p>
+		<p class="finput">视频码率：<input type="text" name="kbps" placeholder="请输入转换成的格式" ><b></b></p>
+		<p class="finput">转换格式：<input type="text" name="format" placeholder="请输入转换成的格式" ><b></b></p> 
+		<p class="finput">文 件 名 ：<input type="text" name="save" placeholder="请输入文件名" required><b></b></p>
+	 	<p class="finput">选择视频：<input type="file" name="testfile"><b></b><p>  
+	  	<p class="finput"><input type="submit" id="sub"></p>
+	</form>-->
+	<form name="mainv" id="mainv" enctype="multipart/form-data">
+		<p class="finput">视频宽度：<input type="text" name="width" placeholder="请输入宽度"><b></b></p>
+		<p class="finput">视频高度：<input type="text" name="height" placeholder="请输入高度"><b></b></p>
+		<p class="finput">视频帧率：<input type="text" name="fps" placeholder="请输入转换成的格式" ><b></b></p>
+		<p class="finput">视频码率：<input type="text" name="kbps" placeholder="请输入转换成的格式" ><b></b></p>
+		<p class="finput">转换格式：<input type="text" name="format" placeholder="请输入转换成的格式" ><b></b></p> 
+		<p class="finput">文 件 名 ：<input type="text" name="save" placeholder="请输入文件名" required><b></b></p>
+	 	<p class="finput">选择视频：<input type="file" name="testfile"><b></b><p> 
+	 	<p class="finput" id="aler" style="color:red" ></p> 
+	  	<p class="finput"><input type="button" id="sub" value="提交"></p>
+	</form>
+</div>
+<script type="text/javascript">
+window.onload = function(){
+	var sub = document.getElementById("sub");
+	var aler = document.getElementById("aler");
+	sub.onclick = function(){
+		var mainv = document.getElementById("mainv");
+		var all = new FormData(mainv);
+		$.ajax({
+			url: "/users/formup",
+			type: "POST",
+			//contentType: "multipart/form-data",
+			data: all,
+			processData: false,
+			contentType: false,
+			success: function(data){
+				aler.innerHTML = data;
+			},
+			error: function(data, msg){
+				aler.innerHTML = msg + " : " + data;
+			}
+		})
+	}
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
