@@ -1,8 +1,8 @@
 # video-qrcode-tool
 video transfer and qrcode format
-＃一、	二维码生成工具
+#一、	二维码生成工具
 
-＃1.短链接服务
+#1.短链接服务
 服务接口：192.168.252.8/users/shorten
 需要数据：text ->原url
 返回数据：text ->原url; shourl -> 短url
@@ -23,7 +23,7 @@ $.ajax({
 	}
 })
 
-＃2.二维码生成服务
+#2.二维码生成服务
 服务接口：192.168.252.8/users/qr
 需要数据：text -> url; width -> 二维码宽高
 返回数据：url ->生成图像的data url; width -> 二维码宽高
@@ -50,7 +50,7 @@ $.ajax({
 
 
 
-＃二、	视频转码工具
+#二、	视频转码工具
 
 服务接口：192.168.252.8/users/formup
 
